@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "InputBlink 프로젝트 추가"
+git commit -m "userInput() 함수 정의"
 git push -u origin master
