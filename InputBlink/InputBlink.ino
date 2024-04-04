@@ -1,8 +1,20 @@
 #define SERIAL_BPS (9600)
 
-int userInput()
-{
-  return 0;
+// int userInput() {
+//   if (Serial.available()) {
+//     char ch = Serial.read();
+//     int i = String(ch).toInt();
+//     return i;
+//   }
+//   return -1;
+// }
+
+int userInput() {
+  while (!Serial.available())
+    ;
+  char ch = Serial.read();
+  int i = String(ch).toInt();
+  return i;
 }
 
 void setup() {
@@ -13,4 +25,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   int count = userInput();
+  Serial.println(count);
+  //delay(1000);
 }
