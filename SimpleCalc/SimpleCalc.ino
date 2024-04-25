@@ -7,6 +7,8 @@
 #define BLUE_RXD (10)
 #define BLUE_TXD (11)
 
+SoftwareSerial blueSerial(BLUE_RXD, BLUE_TXD);
+
 // 입력이 double인 나머지 함수
 double remainder(double x, double y) {
   return (int)x % (int)y;
@@ -42,15 +44,27 @@ double calc(const String& sInput) {  // sInput은 변수이지만 원본을 바�
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(SERIAL_BPS);
+  blueSerial.begin(BLUE_SERIAL_BPS);
 }
 
+// Bluetooth(SoftwareSerial)용 단순 계산기
 void loop() {
+  // 파이썬 input() 함수 활용
+  String sInput = input(blueSerial, "계산식 입력: ");
+  Serial.println(sInput);
+  double ans = calc(sInput);
+  Serial.println("답 = " + String(ans));  // double인 ans를 String으로 type casting해서 출력
+  blueSerial.println("답 = " + String(ans)); // SoftwareSerial에 출력
+}
+
+// Serial용 단순 계산기
+/*void loop() {
   // 파이썬 input() 함수 활용
   String sInput = input("계산식 입력: ");
   Serial.println(sInput);
   double ans = calc(sInput);
   Serial.println("답 = " + String(ans));  // double인 ans를 String으로 type casting해서 출력
-}
+}*/
 
 // 토큰 추출 연습
 /*void loop() {
