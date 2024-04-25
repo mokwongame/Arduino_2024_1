@@ -51,7 +51,7 @@ public:
 	}
 
 	StringTok(const StringTok& str) {
-		setString(str);  // Copy constructor
+		setString(str);  // copy constructor
 	}
 
 	// Basic Methods ////////////////////////////////////////////////
@@ -60,7 +60,7 @@ public:
 	}
 
 	char getLastAt(void) const {
-		return getAt(getLength() - 1);   // Get the last character.
+		return getAt(getLength() - 1);   // get the last character
 	}
 
 	size_t getLength(void) const {
@@ -98,8 +98,8 @@ public:
 	String getRight(int nCount) const;
 	String getMid(int nFirst, int nCount) const;
 	StringTok getToken(void);
-	StringTok getTokenNum(void);  // Get a token that is a number with or without exponent
-	StringTok getTokenWhite(void);  // Get a Token only separated by white characters
+	StringTok getTokenNum(void);  // get a token that is a number with or without exponent
+	StringTok getTokenWhite(void);  // get a Token only separated by white characters
 
 	void setString(char ch) {
 		m_str = ch;
@@ -278,7 +278,7 @@ public:
 		return getAt(nPos);
 	}
 
-	// Serial Operations /////////////////////////////////////////////
+	// Serial Operations ////////////////////////////////////////////
 	void appendSerial(void) {
 		m_str += getSerialInput();
 	}
@@ -390,47 +390,47 @@ public:
 		return Serial1.available() > 0;
 	}
 	static bool isAvailableSerial2void) {
-	return Serial2.available() > 0;
- }
- static bool isAvailableSerial3void) {
- return Serial3.available() > 0;
- }
+		return Serial2.available() > 0;
+	}
+	static bool isAvailableSerial3void) {
+		return Serial3.available() > 0;
+	}
 #endif
 
- // SoftwareSerial Operations /////////////////////////////////////////////
- // SoftwareSerial의 입력을 문자열로 반환
- void appendSerial(SoftwareSerial& swSerial) {
-	 m_str += getSerialInput(swSerial);
- }
- void inputSerial(SoftwareSerial& swSerial) {
-	 m_str = getSerialInput(swSerial);
-	 initPosTok();
- }
- void clearSerial(SoftwareSerial& swSerial) {
-	 while (swSerial.available() > 0) swSerial.read();
-	 initPosTok();
- }
- void printSerial(SoftwareSerial& swSerial) {
-	 swSerial.print(m_str);
- }
- void printlnSerial(SoftwareSerial& swSerial) {
-	 swSerial.println(m_str);
- }
- static String getSerialInput(SoftwareSerial& swSerial)
- {
-	 String str;
-	 while (swSerial.available() > 0) str += (char)swSerial.read();
-	 return str;
- }
- static bool isAvailableSerial(SoftwareSerial& swSerial) {
-	 return swSerial.available() > 0;
- }
+	// SoftwareSerial Operations /////////////////////////////////////////////
+	// return by String with SoftwareSerial
+	void appendSerial(SoftwareSerial& swSerial) {
+		m_str += getSerialInput(swSerial);
+	}
+	void inputSerial(SoftwareSerial& swSerial) {
+		m_str = getSerialInput(swSerial);
+		initPosTok();
+	}
+	void clearSerial(SoftwareSerial& swSerial) {
+		while (swSerial.available() > 0) swSerial.read();
+		initPosTok();
+	}
+	void printSerial(SoftwareSerial& swSerial) {
+		swSerial.print(m_str);
+	}
+	void printlnSerial(SoftwareSerial& swSerial) {
+		swSerial.println(m_str);
+	}
+	static String getSerialInput(SoftwareSerial& swSerial)
+	{
+		String str;
+		while (swSerial.available() > 0) str += (char)swSerial.read();
+		return str;
+	}
+	static bool isAvailableSerial(SoftwareSerial& swSerial) {
+		return swSerial.available() > 0;
+	}
 
 private:
 	// Internal Variables ///////////////////////////////////////////
-	static const char EOL = '\n'; // End of line
+	static const char EOL = '\n'; // end of line
 	String m_str;
-	int m_nPosTok; // Token position
+	int m_nPosTok; // token position
 };
 /////////////////////////////////////////////////////////////////////
 
@@ -439,7 +439,7 @@ private:
   -------------------------------------------------------------------*/
 inline bool StringTok::isDelimit(char ch)
 {
-	static const char pChar[] = " +-*/<>=()&|!,;:@#$%^\t\r\n[]{}";    // Array for delimeter
+	static const char pChar[] = " +-*/<>=()&|!,;:@#$%^\t\r\n[]{}";    // array for delimeter
 	size_t nChar = strlen(pChar);
 	for (int i = 0; i < nChar; i++)  if (ch == pChar[i])  return true;
 	return false;
@@ -447,7 +447,7 @@ inline bool StringTok::isDelimit(char ch)
 
 inline bool StringTok::isWhite(char ch)
 {
-	static const char pChar[] = " \t\r\n";    // Array for white characters
+	static const char pChar[] = " \t\r\n";    // array for white characters
 	size_t nChar = strlen(pChar);
 	for (int i = 0; i < nChar; i++)  if (ch == pChar[i])  return true;
 	return false;
@@ -515,7 +515,7 @@ inline StringTok StringTok::getTokenNum(void)
 		sTokenAdd = getToken();
 		sToken = sToken.getString() + sTokenAdd.getString();
 	}
-	if (sToken.getLastAt() == 'e' || sToken.getLastAt() == 'E') // Exponent
+	if (sToken.getLastAt() == 'e' || sToken.getLastAt() == 'E') // exponent
 	{
 		sTokenAdd = getToken();
 		sToken = sToken.getString() + sTokenAdd.getString();
@@ -567,7 +567,7 @@ inline void scans(String& str)
 	{
 		while (Serial.available() > 0) sTmp += (char)Serial.read();
 		delay(SERIAL_WAIT_TIME_MS);
-		if (Serial.available() <= 0 && sTmp.length() > 0) break; // There are input characters.
+		if (Serial.available() <= 0 && sTmp.length() > 0) break; // there are input characters
 	}
 	str = sTmp;
 }
@@ -579,7 +579,7 @@ inline void scans(SoftwareSerial& swSerial, String& str)
 	{
 		while (swSerial.available() > 0) sTmp += (char)swSerial.read();
 		delay(SERIAL_WAIT_TIME_MS);
-		if (swSerial.available() <= 0 && sTmp.length() > 0) break; // There are input characters.
+		if (swSerial.available() <= 0 && sTmp.length() > 0) break; // there are input characters
 	}
 	str = sTmp;
 }
@@ -656,10 +656,17 @@ inline void scans(SoftwareSerial& swSerial, double& x)
 	x = str.toDouble();
 }
 
-inline String input(const String& sPrint) // Compatible to Python input()
+inline String input(const String& sPrint) // compatible to Python input()
 {
 	Serial.print(sPrint);
 	String str; scans(str);
+	return str;
+}
+
+inline String input(SoftwareSerial& swSerial, const String& sPrint) // input() for SoftwareSerial
+{
+	swSerial.print(sPrint);
+	String str; scans(swSerial, str);
 	return str;
 }
 
@@ -843,6 +850,6 @@ inline void printlns(SoftwareSerial& swSerial)
 Revision Records
 ---------------------------------------------------------------------
 C(2016-12-05)
-R(2018-04-01): the line operations were added.
-R(2018-09-20): the I/O methods were added.
+R(2018-04-01): add line operations
+R(2018-09-20): add I/O methods
 -------------------------------------------------------------------*/
