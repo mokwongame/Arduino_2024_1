@@ -7,9 +7,24 @@
 #define BLUE_RXD (10)
 #define BLUE_TXD (11)
 
+// 연산자 op에 따라 계산해서 double을 반환: x op y
+double calcOp(char op, double x, double y) {
+  return 0.;
+}
+
 // 문자열 입력 받아 double을 반환
 double calc(String& sInput) {
-  return 0.;
+  StringTok stInput(sInput);
+  StringTok stToken;              // stToken 인스턴스 생성
+  stToken = stInput.getToken();   // 숫자를 뜻하는 문자열
+  double x = stToken.toDouble();  // StringTok을 double로 type casting
+  stToken = stInput.getToken();   // 연산자
+  char op = stToken[0];           // String -> char
+  stToken = stInput.getToken();   // 숫자를 뜻하는 문자열
+  double y = stToken.toDouble();
+  //Serial.println("추출한 토큰: " + String(x) + op + String(y)); // 디버깅 코드
+  double ans = calcOp(op, x, y);
+  return ans;
 }
 
 void setup() {
@@ -18,11 +33,11 @@ void setup() {
 }
 
 void loop() {
-// 파이썬 input() 함수 활용
+  // 파이썬 input() 함수 활용
   String sInput = input("계산식 입력: ");
   Serial.println(sInput);
   double ans = calc(sInput);
-  Serial.println("답 = " + String(ans)); // double인 ans를 String으로 type casting해서 출력
+  Serial.println("답 = " + String(ans));  // double인 ans를 String으로 type casting해서 출력
 }
 
 // 토큰 추출 연습
