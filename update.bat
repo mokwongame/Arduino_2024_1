@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "StringTok.h 수정"
+git commit -m "SimpleCalc 프로젝트 추가"
 git push -u origin master
