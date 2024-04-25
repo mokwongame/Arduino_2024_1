@@ -7,13 +7,25 @@
 #define BLUE_RXD (10)
 #define BLUE_TXD (11)
 
+// 입력이 double인 나머지 함수
+double remainder(double x, double y) {
+  return (int)x % (int)y;
+}
+
 // 연산자 op에 따라 계산해서 double을 반환: x op y
 double calcOp(char op, double x, double y) {
-  return 0.;
+  double ans = 0.;
+  switch (op) {
+    case '+': ans = x + y; break;
+    case '*': ans = x * y; break;
+    case '%': ans = remainder(x, y); break;
+  }
+  return ans;
 }
 
 // 문자열 입력 받아 double을 반환
-double calc(String& sInput) {
+// String&: String 자료형의 레퍼런스(&); 레퍼런스는 그 변수(인스턴스)에 접근할 수 있는 권한
+double calc(const String& sInput) {  // sInput은 변수이지만 원본을 바꿀 수 있는 권한(reference) 있음; const 붙인 효과: 접근해서 읽을 수 있지만 쓰기는 불가능(const는 상수 의미)
   StringTok stInput(sInput);
   StringTok stToken;              // stToken 인스턴스 생성
   stToken = stInput.getToken();   // 숫자를 뜻하는 문자열
