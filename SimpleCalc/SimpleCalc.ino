@@ -7,12 +7,26 @@
 #define BLUE_RXD (10)
 #define BLUE_TXD (11)
 
+// 문자열 입력 받아 double을 반환
+double calc(String& sInput) {
+  return 0.;
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(SERIAL_BPS);
 }
 
 void loop() {
+// 파이썬 input() 함수 활용
+  String sInput = input("계산식 입력: ");
+  Serial.println(sInput);
+  double ans = calc(sInput);
+  Serial.println("답 = " + String(ans)); // double인 ans를 String으로 type casting해서 출력
+}
+
+// 토큰 추출 연습
+/*void loop() {
   // put your main code here, to run repeatedly:
   String sInput = "10 + 20";
   Serial.println("계산식: " + sInput);
@@ -29,4 +43,4 @@ void loop() {
   stToken = stInput.getToken();  // 더 이상 추출할 토큰이 없으면 null string = "" 반환
   Serial.println("4번 토큰 = [" + stToken.toString() + "]");
   delay(1000);
-}
+}*/
