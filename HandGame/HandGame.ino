@@ -10,8 +10,18 @@ enum HandType {
   HT_NONE
 };
 
+// 게임 결과용 열거 상수
+enum GameType {
+  GT_WIN,
+  GT_LOSE,
+  GT_TIE
+};
+
+int totalScore; // 총 득점
+
 // 사용자 입력을 char로 반환
-char userInputChar() {
+char
+userInputChar() {
   while (!Serial.available())
     ;
   char ch = Serial.read();
@@ -38,6 +48,7 @@ void initGame() {
   int adc = analogRead(SEED_PORT);
   adc *= adc;
   randomSeed(adc);
+  totalScore = 0;
 }
 
 void startGame() {
@@ -70,7 +81,26 @@ HandType getRandHand() {
   return nHand;
 }
 
-void checkHands(HandType nUserHand, HandType nRandHand) {
+GameType checkHands(HandType nUserHand, HandType nRandHand) {
+  if (nUserHand == HT_SCISSORS) {
+    switch (nRandHand) {
+      case HT_SCISSORS: return GT_TIE;
+      case HT_ROCK: return GT_LOSE;
+      default: return GT_WIN;  // HT_PAPER
+    }
+  } else if (nUserHand == HT_ROCK) {
+    switch (nRandHand) {
+      case HT_SCISSORS: return GT_WIN;
+      case HT_ROCK: return GT_TIE;
+      default: return GT_LOSE;  // HT_PAPER
+    }
+  } else {  // HT_PAPER
+    switch (nRandHand) {
+      case HT_SCISSORS: return GT_LOSE;
+      case HT_ROCK: return GT_WIN;
+      default: return GT_TIE;  // HT_PAPER
+    }
+  }
 }
 
 void setup() {
@@ -89,6 +119,8 @@ void loop() {
     return;
   }
   HandType nRandHand = getRandHand();
-  checkHands(nUserHand, nRandHand);
+  Serial.println("아두이노의 선택 = " + String(nRandHand));
+  GameType nGame = checkHands(nUserHand, nRandHand);
+  Serial.println(nGame);
   //delay(1000);
 }
