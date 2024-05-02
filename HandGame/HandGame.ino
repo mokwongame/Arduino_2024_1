@@ -1,5 +1,6 @@
 #define SERIAL_BPS (9600)
 #define SEED_PORT (A0)
+#define WAIT_TIME (50)
 
 // 가위바위보 열거 상수 정의
 enum HandType {
@@ -10,12 +11,17 @@ enum HandType {
 };
 
 // 사용자 입력을 char로 반환
-char
-userInputChar() {
+char userInputChar() {
   while (!Serial.available())
     ;
   char ch = Serial.read();
   return ch;
+}
+
+// Serial 입력 지우기
+void clearSerial() {
+  delay(WAIT_TIME);
+  while (Serial.available()) Serial.read();
 }
 
 // 초기 화면
@@ -37,12 +43,15 @@ void initGame() {
 void startGame() {
   Serial.println("시작하려면 아무 키나 입력하세요.");
   userInputChar();  // 반환값 무시
+  clearSerial();
 }
 
 HandType getUserHand() {
   Serial.print("가위(S)바위(R)보(P) 선택: ");
   char ch = userInputChar();
-  String str(ch); str.toUpperCase(); // 대문자 변환
+  clearSerial();
+  String str(ch);
+  str.toUpperCase();  // 대문자 변환
   ch = str[0];
   Serial.println(ch);
   HandType nHand;
@@ -50,9 +59,18 @@ HandType getUserHand() {
     case 'S': nHand = HT_SCISSORS; break;
     case 'R': nHand = HT_ROCK; break;
     case 'P': nHand = HT_PAPER; break;
-    default: nHand = HT_NONE; // 잘못 입력한 경우
+    default: nHand = HT_NONE;  // 잘못 입력한 경우
   }
   return nHand;
+}
+
+HandType getRandHand() {
+  //HandType nHand = random(0, 3);
+  HandType nHand = random(HT_SCISSORS, HT_PAPER + 1);
+  return nHand;
+}
+
+void checkHands(HandType nUserHand, HandType nRandHand) {
 }
 
 void setup() {
@@ -65,6 +83,12 @@ void loop() {
   // put your main code here, to run repeatedly:
   startGame();
   HandType nUserHand = getUserHand();
-  Serial.println(nUserHand);
+  //Serial.println(nUserHand);
+  if (nUserHand == HT_NONE) {
+    Serial.println("잘못된 입력입니다.");
+    return;
+  }
+  HandType nRandHand = getRandHand();
+  checkHands(nUserHand, nRandHand);
   //delay(1000);
 }

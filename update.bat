@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "사용자 입력 처리 함수"
+git commit -m "난수로 손 선택 생성"
 git push -u origin master
