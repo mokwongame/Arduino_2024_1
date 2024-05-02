@@ -17,11 +17,10 @@ enum GameType {
   GT_TIE
 };
 
-int totalScore; // 총 득점
+int totalScore;  // 총 득점
 
 // 사용자 입력을 char로 반환
-char
-userInputChar() {
+char userInputChar() {
   while (!Serial.available())
     ;
   char ch = Serial.read();
@@ -103,6 +102,11 @@ GameType checkHands(HandType nUserHand, HandType nRandHand) {
   }
 }
 
+void calcScore(GameType nGame) {
+  if (nGame == GT_WIN) totalScore++;
+  else if (nGame == GT_LOSE) totalScore--;
+}
+
 void setup() {
   // put your setup code here, to run once:
   initGame();
@@ -122,5 +126,7 @@ void loop() {
   Serial.println("아두이노의 선택 = " + String(nRandHand));
   GameType nGame = checkHands(nUserHand, nRandHand);
   Serial.println(nGame);
+  calcScore(nGame);
+  Serial.println("총 득점 = " + String(totalScore));
   //delay(1000);
 }
