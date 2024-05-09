@@ -43,6 +43,10 @@ void setup() {
   initLed();
 }
 
+void ledColor(const String& color) {
+  
+}
+
 void ledCmd(const String& sInput) {
   // 토큰 추출
   StringTok stInput(sInput);
@@ -52,6 +56,7 @@ void ledCmd(const String& sInput) {
   {
       token = stInput.getToken().toString(); // 색깔: color
       Serial.println("입력한 색깔: " + token);
+      ledColor(token);
   }
   else Serial.println("잘못된 명령어!");
 }
