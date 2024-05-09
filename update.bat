@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "가위바위보 게임 초기 완성"
+git commit -m "TestLed3 프로젝트 추가"
 git push -u origin master
