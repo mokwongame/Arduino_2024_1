@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "LED 제어 함수 추가"
+git commit -m "명령어 토큰 추출 기능"
 git push -u origin master

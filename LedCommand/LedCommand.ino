@@ -43,14 +43,22 @@ void setup() {
   initLed();
 }
 
+void ledCmd(const String& sInput) {
+  // 토큰 추출
+  StringTok stInput(sInput);
+  String token;
+  token = stInput.getToken().toString(); // 명령어
+  if (token == "led3")
+  {
+      token = stInput.getToken().toString(); // 색깔: color
+      Serial.println("입력한 색깔: " + token);
+  }
+  else Serial.println("잘못된 명령어!");
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
-  turnRgb(true, false, false); // red
-  delay(1000);
-  turnRgb(true, true, false); // yellow
-  delay(1000);
-  turnRgb(false, false, false); // black
-  delay(1000);
-  turnRgb(true, true, true); // white
-  delay(1000);
+  String sInput = input("명령어: ");
+  Serial.println(sInput);
+  ledCmd(sInput);
 }
