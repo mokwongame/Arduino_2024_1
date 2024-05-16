@@ -1,5 +1,8 @@
 #define SERIAL_BPS (9600)
 #define SEED_PORT (A1)
+#define VOLT_PORT (A0)
+
+unsigned long startTime;
 
 void initGame() {
   Serial.begin(SERIAL_BPS);
@@ -19,6 +22,7 @@ int startGame() {
   int nRand = random(30, 900);
   Serial.println("아래 전압을 맞추세요!");
   printVolt(nRand);
+  startTime = millis();  // 현재 시간 저장
   return nRand;
 }
 
@@ -30,5 +34,11 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   int nRand = startGame();
+  bool bResult = false;
+  while (!bResult) {  // bResult가 false인 동안(while) 반복
+    // 전압 측정
+    int nVolt = analogRead(VOLT_PORT);
+    if (bResult) break;  // bResult가 true이면(if) 반복 깨기(break)
+  }
   delay(1000);
 }
