@@ -1,6 +1,10 @@
 #define SERIAL_BPS (9600)
 #define SEED_PORT (A1)
 #define VOLT_PORT (A0)
+#define ADC_MARGIN (10)
+
+#define SHOW_VOLT_TIME (400)  // in msec
+#define WAIT_TIME (1500)
 
 unsigned long startTime;
 
@@ -22,6 +26,7 @@ int startGame() {
   int nRand = random(30, 900);
   Serial.println("아래 전압을 맞추세요!");
   printVolt(nRand);
+  delay(WAIT_TIME);
   startTime = millis();  // 현재 시간 저장
   return nRand;
 }
@@ -38,7 +43,11 @@ void loop() {
   while (!bResult) {  // bResult가 false인 동안(while) 반복
     // 전압 측정
     int nVolt = analogRead(VOLT_PORT);
-    if (bResult) break;  // bResult가 true이면(if) 반복 깨기(break)
+    printVolt(nVolt);
+    if (nVolt >= nRand - ADC_MARGIN && nVolt <= nRand + ADC_MARGIN) bResult = true;  // 성공
+    if (bResult) break;                                                              // bResult가 true이면(if) 반복 깨기(break)
+    delay(SHOW_VOLT_TIME);
   }
-  delay(1000);
+  Serial.println("성공!!\n");
+  delay(WAIT_TIME);
 }
