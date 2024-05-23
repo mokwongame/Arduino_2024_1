@@ -48,6 +48,9 @@ void loop() {
     if (bResult) break;                                                              // bResult가 true이면(if) 반복 깨기(break)
     delay(SHOW_VOLT_TIME);
   }
+  unsigned long stopTime = millis();
   Serial.println("성공!!\n");
+  double voltTime = (stopTime - startTime) * 1e-3;
+  Serial.println("걸린 시간 = " + String(voltTime) + "초\n\n");
   delay(WAIT_TIME);
 }
